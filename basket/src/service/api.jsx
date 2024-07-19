@@ -1,3 +1,4 @@
+
 import axios from "axios";
 
 const Api = axios.create({
@@ -31,3 +32,26 @@ export const GetSingleProducts = async (id) => {
     throw error;
   }
 };
+
+
+
+// export const GetProductsFetch = async () => {
+//   try {
+//     const response = await fetch("https://fakestoreapi.com/products", {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     });
+
+//     if (!response.ok) {
+//       throw new Error(response.status);
+//     }
+
+//     const data = await response.json();
+//     return data;
+//   } catch (error) {
+//     console.log(error);
+//     throw error;
+//   }
+// };

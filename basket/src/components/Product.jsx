@@ -22,7 +22,11 @@ const Product = () => {
   return (
     <>
       <div>
-     
+        {products.length === 0 && (
+          <h2 className="text-green-300 text-4xl font bold m-12">
+            Not Found
+          </h2>
+        )}
         <div className="p-5 grid gap-x-20 gap-y-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
           {products.map((product, index) => (
             <div className=" bg-gray-800 text-gray-200 rounded-xl" key={index}>

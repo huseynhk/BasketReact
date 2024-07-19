@@ -9,7 +9,8 @@ const About = () => {
   return (
     <>
       <div>
-        <Link className="text-gray-100 mr-2" to="company">Company</Link>
+        <h3 className="text-gray-100 mx-2">About Page </h3>
+        <Link className="text-gray-100 mx-2" to="company">Company</Link>
         <Link className="text-gray-100 mr-2" to="us">AboutUs</Link>
       </div>
       <Routes>

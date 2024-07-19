@@ -5,7 +5,7 @@ import { MdShoppingBasket } from "react-icons/md";
 import { useGlobalContext } from "../contexts/GlobalContext";
 
 const Navbar = () => {
-  const { quantity, setQuantity} =
+  const { quantity, setQuantity, searchQuery, setSearchQuery } =
     useGlobalContext();
   const { pathname } = useLocation();
 
@@ -20,7 +20,13 @@ const Navbar = () => {
   return (
     <>
       <div className="px-3 py-8 bg-gray-800 text-gray-300 flex justify-center items-center">
-    
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="px-3 py-1 rounded-lg text-gray-800 outline outline-2 mr-3"
+        />
         <Link
           className={`font-medium mr-3 text-[28px] ${
             pathname === ROUTER.Product ? "text-[#D63626]" : "text-[#828282]"

@@ -9,6 +9,9 @@ const Basket = () => {
     removeFromBasket,
     setQuantity,
     removeAllProducts,
+    incrementQuantity,
+    deccrementQuantity,
+    calculateTotalPrice,
   } = useGlobalContext();
 
   useEffect(() => {
@@ -19,8 +22,12 @@ const Basket = () => {
 
   return (
     <>
+      {" "}
       <div className="h-screen">
         <header className="bg-gray-700 py-5 text-gray-200 flex flex-col justify-center items-center">
+          <h3 className="text-3xl font-bold text-stone-300 mb-2">
+            Total: {calculateTotalPrice()}
+          </h3>
           <button
             onClick={removeAllProducts}
             className="bg-red-700 rounded-xl py-2 px-5 hover:bg-red-800 transition-all duration-500 text-gray-100 text-3xl"
@@ -28,6 +35,9 @@ const Basket = () => {
             Remove
           </button>
         </header>
+        {basket.length === 0 && (
+          <h2 className="text-green-300 text-4xl font bold m-12">Not Found</h2>
+        )}
         <div className="p-5 grid gap-x-20 gap-y-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
           {basket.length > 0 ? (
             basket.map((product, index) => (
@@ -59,7 +69,23 @@ const Basket = () => {
                       Rating : {product.rating.rate}
                     </p>
                   </div>
-                  <div>
+                  <span>$ {(product.price * product.quantity).toFixed(2)}</span>
+                  <div className="flex items-center">
+                    <div className="mr-3">
+                      <button
+                        onClick={() => deccrementQuantity(product.id)}
+                        className="bg-red-300 text-gray-900 text-2xl rounded-xl py-2 px-3 hover:bg-red-400 transition-all duration-500"
+                      >
+                        -
+                      </button>
+                      <span className="mx-2 text-3xl">{product.quantity}</span>
+                      <button
+                        onClick={() => incrementQuantity(product.id)}
+                        className="bg-green-300 text-gray-900 text-xl  py-2 px-3 rounded-xl  hover:bg-green-400 transition-all duration-500"
+                      >
+                        +
+                      </button>
+                    </div>
                     <button
                       onClick={() => removeFromBasket(product.id)}
                       className="bg-gray-300 rounded-xl py-2 px-5 hover:bg-gray-400 transition-all duration-500"

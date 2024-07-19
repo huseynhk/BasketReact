@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const GlobalContext = createContext();
@@ -7,8 +7,15 @@ const GlobalContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [basket, setBasket] = useState([]);
   const [quantity, setQuantity] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const filteredProduct = products.filter((product) =>
+    product.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
+  const filteredBasket = basket.filter((product) =>
+    product.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const addToBasket = (productId) => {
     const addProduct = products.find((product) => product.id === productId);
@@ -55,18 +62,76 @@ const GlobalContextProvider = ({ children }) => {
     localStorage.setItem("basketArray", JSON.stringify([]));
   };
 
+  const incrementQuantity = (productId) => {
+    const updatedBasket = basket.map((product) =>
+      product.id === productId
+        ? { ...product, quantity: product.quantity + 1 }
+        : product
+    );
+    setBasket(updatedBasket);
+    setQuantity((prevCount) => prevCount + 1);
+    localStorage.setItem("basketArray", JSON.stringify(updatedBasket));
+  };
+
+  const deccrementQuantity = (productId) => {
+    const updatedBasket = basket.map((product) =>
+      product.id === productId
+        ? { ...product, quantity: Math.max(1, product.quantity - 1) }
+        : product
+    );
+
+    setBasket(updatedBasket);
+    setQuantity((prevCount) => prevCount - 1);
+    localStorage.setItem("basketArray", JSON.stringify(updatedBasket));
+  };
+
+  const calculateTotalPrice = () => {
+    const total = basket.reduce(
+      (total, product) => total + product.price * product.quantity,
+      0
+    );
+    const roundedTotal = Math.round(total);
+    return roundedTotal;
+  };
+  // const calculateTotalPrice = () => {
+  //   let total = 0;
+  //   for (let i = 0; i < basket.length; i++) {
+  //     const product = basket[i];
+  //     total += product.price * product.quantity;
+  //   }
+  //   const roundedTotal = Math.round(total);
+  //   return roundedTotal;
+  // };
+
+  const updateProductCount = () => {
+    const total = basket.reduce(
+      (total, product) => total + product.quantity,
+      0
+    );
+    const roundedTotal = Math.round(total);
+    setQuantity(roundedTotal);
+  };
+
+  useEffect(() => {
+    updateProductCount();
+  }, [basket]);
+
   const contextValue = {
-    products,
+    products: filteredProduct,
+    searchQuery,
+    setSearchQuery,
     setProducts,
     addToBasket,
-    basket,
+    basket: filteredBasket,
     setBasket,
     quantity,
     isInBasket,
     removeFromBasket,
     setQuantity,
     removeAllProducts,
-
+    incrementQuantity,
+    deccrementQuantity,
+    calculateTotalPrice,
   };
 
   const Component = GlobalContext.Provider;
