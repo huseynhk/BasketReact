@@ -25,9 +25,8 @@ const GlobalContextProvider = ({ children }) => {
         toast.warning("Product is already exist!", {
           autoClose: 1500,
         });
-      }
-       else {
-        const updatedBasket = [...basket, { ...addProduct, quantity: 1 }];
+      } else {
+        const updatedBasket = [...basket, { ...addProduct, count: 1 }];
         setBasket(updatedBasket);
         setQuantity((prevCount) => prevCount + 1);
         localStorage.setItem("basketArray", JSON.stringify(updatedBasket));
@@ -35,7 +34,6 @@ const GlobalContextProvider = ({ children }) => {
           autoClose: 1500,
         });
       }
-
     } else {
       toast.error("Product not found!", {
         autoClose: 1500,
@@ -67,7 +65,7 @@ const GlobalContextProvider = ({ children }) => {
   const incrementQuantity = (productId) => {
     const updatedBasket = basket.map((product) =>
       product.id === productId
-        ? { ...product, quantity: product.quantity + 1 }
+        ? { ...product, count: product.count + 1 }
         : product
     );
     setBasket(updatedBasket);
@@ -78,10 +76,15 @@ const GlobalContextProvider = ({ children }) => {
   const deccrementQuantity = (productId) => {
     const updatedBasket = basket.map((product) =>
       product.id === productId
-        // ? { ...product, quantity: Math.max(1, product.quantity - 1) }
-        ? { ...product, quantity: product.quantity > 1 ? product.quantity - 1 : 1 }
+        ? // ? { ...product, count: Math.max(1, product.count - 1) }
+          {
+            ...product,
+            count: product.count > 1 ? product.count - 1 : 1,
+          }
         : product
     );
+
+
 
     setBasket(updatedBasket);
     setQuantity((prevCount) => prevCount - 1);
@@ -90,7 +93,7 @@ const GlobalContextProvider = ({ children }) => {
 
   const calculateTotalPrice = () => {
     const total = basket.reduce(
-      (total, product) => total + product.price * product.quantity,
+      (total, product) => total + product.price * product.count,
       0
     );
     const roundedTotal = Math.round(total);
@@ -108,7 +111,7 @@ const GlobalContextProvider = ({ children }) => {
 
   const updateProductCount = () => {
     const total = basket.reduce(
-      (total, product) => total + product.quantity,
+      (total, product) => total + product.count,
       0
     );
     const roundedTotal = Math.round(total);

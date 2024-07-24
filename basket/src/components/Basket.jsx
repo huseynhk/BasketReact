@@ -68,7 +68,7 @@ const Basket = () => {
                       Rating : {product.rating.rate}
                     </p>
                   </div>
-                  <span>$ {(product.price * product.quantity).toFixed(2)}</span>
+                  <span>$ {(product.price * product.count).toFixed(2)}</span>
                   <div className="flex items-center">
                     <div className="mr-3">
                       <button
@@ -77,7 +77,7 @@ const Basket = () => {
                       >
                         -
                       </button>
-                      <span className="mx-2 text-3xl">{product.quantity}</span>
+                      <span className="mx-2 text-3xl">{product.count}</span>
                       <button
                         onClick={() => incrementQuantity(product.id)}
                         className="bg-green-300 text-gray-900 text-xl  py-2 px-3 rounded-xl  hover:bg-green-400 transition-all duration-500"
@@ -97,7 +97,7 @@ const Basket = () => {
             ))
           ) : (
             <div className=" flex justify-center items-center">
-              <h1 className="text-cyan-300 text-3xl font-bold">
+              <h1 className="text-cyan-700 text-3xl font-bold">
                 Basket is empty
               </h1>
             </div>
