@@ -25,7 +25,8 @@ const GlobalContextProvider = ({ children }) => {
         toast.warning("Product is already exist!", {
           autoClose: 1500,
         });
-      } else {
+      }
+       else {
         const updatedBasket = [...basket, { ...addProduct, quantity: 1 }];
         setBasket(updatedBasket);
         setQuantity((prevCount) => prevCount + 1);
@@ -34,6 +35,7 @@ const GlobalContextProvider = ({ children }) => {
           autoClose: 1500,
         });
       }
+
     } else {
       toast.error("Product not found!", {
         autoClose: 1500,
@@ -76,7 +78,8 @@ const GlobalContextProvider = ({ children }) => {
   const deccrementQuantity = (productId) => {
     const updatedBasket = basket.map((product) =>
       product.id === productId
-        ? { ...product, quantity: Math.max(1, product.quantity - 1) }
+        // ? { ...product, quantity: Math.max(1, product.quantity - 1) }
+        ? { ...product, quantity: product.quantity > 1 ? product.quantity - 1 : 1 }
         : product
     );
 
@@ -118,6 +121,7 @@ const GlobalContextProvider = ({ children }) => {
 
   const contextValue = {
     products: filteredProduct,
+    filteredProduct,
     searchQuery,
     setSearchQuery,
     setProducts,

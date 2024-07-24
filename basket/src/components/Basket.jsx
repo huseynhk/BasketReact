@@ -22,7 +22,6 @@ const Basket = () => {
 
   return (
     <>
-      {" "}
       <div className="h-screen">
         <header className="bg-gray-700 py-5 text-gray-200 flex flex-col justify-center items-center">
           <h3 className="text-3xl font-bold text-stone-300 mb-2">
